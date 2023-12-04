@@ -1,5 +1,7 @@
 package com.zcckj.plugin.rocketmq.config;
 
+import com.maihaoche.starter.mq.annotation.MQConsumer;
+import com.zcckj.plugin.rocketmq.core.AbstractDedupMQConsumer;
 import com.zcckj.plugin.rocketmq.core.DedupConfig;
 import com.zcckj.plugin.rocketmq.core.PersistTypeEnum;
 import com.zcckj.plugin.rocketmq.persist.JDBCPersist;
@@ -15,7 +17,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.CollectionUtils;
 
+import javax.annotation.PostConstruct;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -70,5 +75,20 @@ public class MQConsumeDedupAutoConfiguration implements ApplicationContextAware 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    @PostConstruct
+    public void init() throws Exception {
+        Map<String, Object> beans = applicationContext.getBeansWithAnnotation(MQConsumer.class);
+        if (CollectionUtils.isEmpty(beans)) {
+            return;
+        }
+        for (Map.Entry<String, Object> entry : beans.entrySet()) {
+            Object bean = entry.getValue();
+            if (AbstractDedupMQConsumer.class.isAssignableFrom(bean.getClass())) {
+                AbstractDedupMQConsumer dedupMQConsumer = (AbstractDedupMQConsumer) bean;
+                dedupMQConsumer.setDedupConfig(dedupConfig());
+            }
+        }
     }
 }

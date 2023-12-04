@@ -21,7 +21,7 @@ import java.util.function.Function;
 public abstract class AbstractDedupMQConsumer<T> extends AbstractMQPushConsumer<T> {
 
     // 默认不去重
-    private DedupConfig dedupConfig = DedupConfig.disableDupConsumeConfig("NOT-SET-CONSUMER-GROUP");
+    protected DedupConfig dedupConfig = DedupConfig.disableDupConsumeConfig("NOT-SET-CONSUMER-GROUP");
 
 
     /**
@@ -84,6 +84,9 @@ public abstract class AbstractDedupMQConsumer<T> extends AbstractMQPushConsumer<
         }
     }
 
+    public void setDedupConfig(DedupConfig dedupConfig) {
+        this.dedupConfig = dedupConfig;
+    }
 }
 
 
