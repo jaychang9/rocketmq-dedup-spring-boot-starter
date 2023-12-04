@@ -6,6 +6,7 @@ import com.zcckj.plugin.rocketmq.core.DedupConfig;
 import com.zcckj.plugin.rocketmq.core.PersistTypeEnum;
 import com.zcckj.plugin.rocketmq.persist.JDBCPersist;
 import com.zcckj.plugin.rocketmq.persist.RedisPersist;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -28,6 +29,7 @@ import java.util.Objects;
  * @description 消息消费防重自动配置
  * @date 2023/12/4
  **/
+@Slf4j
 @Configuration
 @EnableConfigurationProperties({DedupProperties.class})
 @ConditionalOnClass({DedupConfig.class})
@@ -45,9 +47,11 @@ public class MQConsumeDedupAutoConfiguration implements ApplicationContextAware 
     @Bean
     @ConditionalOnMissingBean
     public DedupConfig dedupConfig() {
+        log.debug("消息消费防重配置");
         DedupConfig dedupConfig = new DedupConfig();
         dedupConfig.setApplicationName(dedupProperties.getApplicationName());
         dedupConfig.setDedupProcessingExpireMilliSeconds(dedupProperties.getDedupProcessingExpireMilliSeconds());
+        dedupConfig.setDedupStrategy(DedupConfig.DEDUP_STRATEGY_CONSUME_LATER);
         dedupConfig.setDedupRecordReserveMinutes(dedupProperties.getDedupRecordReserveMinutes());
 
         PersistTypeEnum persistType = dedupProperties.getPersistType();
