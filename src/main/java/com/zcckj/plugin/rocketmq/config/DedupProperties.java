@@ -27,7 +27,7 @@ public class DedupProperties implements Serializable {
     private long dedupProcessingExpireMilliSeconds = 1000 * 60 * 60;
 
     /**
-     * 消息消费成功后，记录保留多少分钟，默认30天，即30天内的消息不会重复
+     * 消息消费成功后，记录保留多少分钟，默认180天，即180天内的消息不会重复
      */
-    private long dedupRecordReserveMinutes = 60 * 24 * 30;
+    private long dedupRecordReserveMinutes = 60 * 24 * 180;
 }
