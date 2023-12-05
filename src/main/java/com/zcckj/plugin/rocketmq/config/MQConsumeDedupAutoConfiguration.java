@@ -94,19 +94,20 @@ public class MQConsumeDedupAutoConfiguration implements ApplicationContextAware 
 
     @PostConstruct
     public void init() throws Exception {
-        Map<String, Object> beans = applicationContext.getBeansWithAnnotation(MQConsumer.class);
+        final Map<String, Object> beans = applicationContext.getBeansWithAnnotation(MQConsumer.class);
         if (CollectionUtils.isEmpty(beans)) {
             return;
         }
+        final DedupConfig dedupConfig = dedupConfig();
         for (Map.Entry<String, Object> entry : beans.entrySet()) {
             Object bean = entry.getValue();
             if (AbstractDedupMQConsumer.class.isAssignableFrom(bean.getClass())) {
                 AbstractDedupMQConsumer dedupMQConsumer = (AbstractDedupMQConsumer) bean;
-                dedupMQConsumer.setDedupConfig(dedupConfig());
+                dedupMQConsumer.setDedupConfig(dedupConfig);
             }
         }
         // 定时清理过期记录 (每24小时执行一次)
         scheduledExecutorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().daemon(true).namingPattern("ClearExpiredRocketmqDedupThread-%d").build());
-        scheduledExecutorService.scheduleWithFixedDelay(() -> dedupConfig().getPersist().clearExpiredRecord(), 24, 24, TimeUnit.HOURS);
+        scheduledExecutorService.scheduleWithFixedDelay(() -> dedupConfig.getPersist().clearExpiredRecord(), 24, 24, TimeUnit.HOURS);
     }
 }
