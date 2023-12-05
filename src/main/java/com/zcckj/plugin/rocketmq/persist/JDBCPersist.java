@@ -3,8 +3,10 @@ package com.zcckj.plugin.rocketmq.persist;
 
 import com.zcckj.plugin.rocketmq.core.ConsumeStatusEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -29,6 +31,7 @@ import java.util.Map;
 public class JDBCPersist implements IPersist {
     private final JdbcTemplate jdbcTemplate;
 
+    private final static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public JDBCPersist(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -37,10 +40,10 @@ public class JDBCPersist implements IPersist {
     public boolean setConsumingIfNX(DedupElement dedupElement, long dedupProcessingExpireMilliSeconds) {
         long expireTime = System.currentTimeMillis() + dedupProcessingExpireMilliSeconds;
         try {
-            int i = jdbcTemplate.update("INSERT INTO t_rocketmq_dedup(application_name, topic, tag, msg_uniq_key, consume_status, expire_time) values (?, ?, ?, ?, ?, ?)", dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey(), ConsumeStatusEnum.CONSUMING.getCode(), expireTime);
+            String dateTimeStr = DateFormatUtils.format(new Date(), DATE_TIME_FORMAT);
+            int i = jdbcTemplate.update("INSERT INTO t_rocketmq_dedup(create_time,update_time,application_name, topic, tag, msg_uniq_key, consume_status, expire_time) values (?, ?, ?, ?, ?, ?, ?, ?)", dateTimeStr, dateTimeStr, dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey(), ConsumeStatusEnum.CONSUMING.getCode(), expireTime);
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.warn("found consuming/consumed record, set setConsumingIfNX fail {}", dedupElement);
-
 
             /**
              * 由于mysql不支持消息过期，出现重复主键的情况下，有可能是过期的一些记录，这里动态的删除这些记录后重试
@@ -79,8 +82,9 @@ public class JDBCPersist implements IPersist {
     @Override
     public void markConsumed(DedupElement dedupElement, long dedupRecordReserveMinutes) {
         long expireTime = System.currentTimeMillis() + dedupRecordReserveMinutes * 60 * 1000;
-        int i = jdbcTemplate.update("UPDATE t_rocketmq_dedup SET consume_status = ? , expire_time  = ? WHERE application_name = ? AND topic = ? AND tag = ? AND msg_uniq_key = ? ",
-                ConsumeStatusEnum.CONSUMED.getCode(), expireTime, dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey());
+        String dateTimeStr = DateFormatUtils.format(new Date(), DATE_TIME_FORMAT);
+        int i = jdbcTemplate.update("UPDATE t_rocketmq_dedup SET update_time = ? ,consume_status = ? , expire_time  = ? WHERE application_name = ? AND topic = ? AND tag = ? AND msg_uniq_key = ? ",
+                dateTimeStr, ConsumeStatusEnum.CONSUMED.getCode(), expireTime, dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey());
     }
 
     @Override
