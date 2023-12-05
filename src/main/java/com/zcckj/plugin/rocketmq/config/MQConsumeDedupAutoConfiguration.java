@@ -8,6 +8,7 @@ import com.zcckj.plugin.rocketmq.core.PersistTypeEnum;
 import com.zcckj.plugin.rocketmq.persist.JDBCPersist;
 import com.zcckj.plugin.rocketmq.persist.RedisPersist;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -25,6 +26,9 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author jaychang
@@ -43,6 +47,8 @@ public class MQConsumeDedupAutoConfiguration implements ApplicationContextAware 
     private DedupProperties dedupProperties;
 
     private ApplicationContext applicationContext;
+
+    private ScheduledExecutorService scheduledExecutorService;
 
     public MQConsumeDedupAutoConfiguration() {
     }
@@ -65,6 +71,7 @@ public class MQConsumeDedupAutoConfiguration implements ApplicationContextAware 
             }
             JDBCPersist jdbcPersist = new JDBCPersist(jdbcTemplate);
             dedupConfig.setPersist(jdbcPersist);
+
         } else if (PersistTypeEnum.REDIS.equals(persistType)) {
             StringRedisTemplate stringRedisTemplate = applicationContext.getBean(StringRedisTemplate.class);
             if (Objects.isNull(stringRedisTemplate)) {
@@ -97,5 +104,8 @@ public class MQConsumeDedupAutoConfiguration implements ApplicationContextAware 
                 dedupMQConsumer.setDedupConfig(dedupConfig());
             }
         }
+        // 定时清理过期记录 (每24小时执行一次)
+        scheduledExecutorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().daemon(true).namingPattern("ClearExpiredRocketmqDedup-%d").build());
+        scheduledExecutorService.scheduleWithFixedDelay(() -> dedupConfig().getPersist().clearExpiredRecord(), 24, 24, TimeUnit.HOURS);
     }
 }

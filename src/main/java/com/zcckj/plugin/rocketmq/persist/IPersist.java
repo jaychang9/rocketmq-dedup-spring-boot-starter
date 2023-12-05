@@ -13,4 +13,6 @@ public interface IPersist {
     default String toPrintInfo(DedupElement dedupElement) {
         return dedupElement.toString();
     }
+
+    default void clearExpiredRecord() {}
 }

@@ -15,7 +15,7 @@
     {
       "name": "rocketmq.consume.dedup.dedup-processing-expire-milli-seconds",
       "type": "java.lang.Long",
-      "description": "对于消费中的消息，多少毫秒内认为重复，默认60分钟，即60分钟内的重复消息都会串行处理（等待前一个消息消费成功\/失败），超过这个时间如果消息还在消费就不认为重复了（为了防止消息丢失）",
+      "description": "对于消费中的消息，多少毫秒内认为重复，默认30分钟，即30分钟内的重复消息都会串行处理（等待前一个消息消费成功\/失败），超过这个时间如果消息还在消费就不认为重复了（为了防止消息丢失）",
       "sourceType": "com.zcckj.plugin.rocketmq.config.DedupProperties",
       "defaultValue": 0
     },

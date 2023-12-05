@@ -26,25 +26,25 @@ public class DedupConfig {
     public static final int DEDUP_STRATEGY_CONSUME_LATER = 1;
 //  public static final int DEDUP_STRATEGY_DROP = 2; //直接当重复处理
 
-
-    private String applicationName;//用以标记去重的时候是哪个应用消费的，同一个应用才需要去重
+    /** 用以标记去重的时候是哪个应用消费的，同一个应用才需要去重*/
+    private String applicationName;
 
     private IPersist persist;
 
 
-    //去重策略，默认不去重
+    /** 去重策略，默认不去重*/
     private int dedupStrategy = DEDUP_STRATEGY_DISABLE;
 
 
     /**
-     * 对于消费中的消息，多少毫秒内认为重复，默认60分钟，即60分钟内的重复消息都会串行处理（等待前一个消息消费成功/失败），超过这个时间如果消息还在消费就不认为重复了（为了防止消息丢失）
+     * 对于消费中的消息，多少毫秒内认为重复，即N分钟内的重复消息都会串行处理（等待前一个消息消费成功/失败），超过这个时间如果消息还在消费就不认为重复了（为了防止消息丢失）
      */
-    private long dedupProcessingExpireMilliSeconds = 1000 * 60 * 60;
+    private long dedupProcessingExpireMilliSeconds;
 
     /**
-     * 消息消费成功后，记录保留多少分钟，默认30天，即30天内的消息不会重复
+     * 消息消费成功后，记录保留多少分钟
      */
-    private long dedupRecordReserveMinutes = 60 * 24 * 30;
+    private long dedupRecordReserveMinutes;
 
 
     //默认拿uniqkey 作为去重的标识

@@ -7,7 +7,6 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.Date;
-import java.util.Map;
 
 /**
  * 需要创建如下表结构
@@ -92,5 +91,10 @@ public class JDBCPersist implements IPersist {
         Integer consumeStatus = jdbcTemplate.queryForObject("SELECT consume_status FROM t_rocketmq_dedup where application_name = ? AND topic = ? AND tag = ? AND msg_uniq_key  = ? and expire_time > ?",
                 new Object[]{dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey(), System.currentTimeMillis()}, Integer.class);
         return consumeStatus;
+    }
+
+    @Override
+    public void clearExpiredRecord() {
+        jdbcTemplate.update("DELETE FROM t_rocketmq_dedup WHERE expire_time < UNIX_TIMESTAMP() * 1000 AND consume_status = ?", ConsumeStatusEnum.CONSUMED.getCode());
     }
 }

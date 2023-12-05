@@ -174,7 +174,8 @@ CREATE TABLE `t_rocketmq_dedup` (
   `consume_status` tinyint(1) NOT NULL COMMENT '消费状态：【0=消费中，1=已消费】',
   `expire_time` bigint(20) NOT NULL COMMENT '过期时间【时间戳，单位：毫秒，如果状态是消费中，但已过了过期时间，则可删除该记录】',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_uniq_key` (`application_name`,`topic`,`tag`,`msg_uniq_key`)
+  UNIQUE KEY `uk_uniq_key` (`application_name`,`topic`,`tag`,`msg_uniq_key`),
+  KEY `idx_expire_time` (`expire_time`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息防重消费表';
 
 ```
