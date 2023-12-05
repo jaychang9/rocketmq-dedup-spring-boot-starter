@@ -1,6 +1,7 @@
 package com.zcckj.plugin.rocketmq.config;
 
 import com.maihaoche.starter.mq.annotation.MQConsumer;
+import com.maihaoche.starter.mq.config.MQConsumerAutoConfiguration;
 import com.zcckj.plugin.rocketmq.core.AbstractDedupMQConsumer;
 import com.zcckj.plugin.rocketmq.core.DedupConfig;
 import com.zcckj.plugin.rocketmq.core.PersistTypeEnum;
@@ -9,6 +10,7 @@ import com.zcckj.plugin.rocketmq.persist.RedisPersist;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,6 +34,7 @@ import java.util.Objects;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({DedupProperties.class})
+@AutoConfigureAfter({MQConsumerAutoConfiguration.class})
 @ConditionalOnClass({DedupConfig.class})
 public class MQConsumeDedupAutoConfiguration implements ApplicationContextAware {
 
