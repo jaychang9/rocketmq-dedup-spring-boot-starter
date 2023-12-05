@@ -80,7 +80,8 @@ public class MQConsumeDedupAutoConfiguration implements ApplicationContextAware 
             RedisPersist redisPersist = new RedisPersist(stringRedisTemplate);
             dedupConfig.setPersist(redisPersist);
         } else {
-            throw new UnsupportedOperationException("Unknown persist type");
+            // 不去重
+            dedupConfig.setDedupStrategy(DedupConfig.DEDUP_STRATEGY_DISABLE);
         }
 
         return dedupConfig;
