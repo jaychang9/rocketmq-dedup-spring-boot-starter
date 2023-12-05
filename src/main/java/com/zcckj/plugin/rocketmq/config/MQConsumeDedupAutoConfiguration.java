@@ -106,7 +106,7 @@ public class MQConsumeDedupAutoConfiguration implements ApplicationContextAware 
             }
         }
         // 定时清理过期记录 (每24小时执行一次)
-        scheduledExecutorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().daemon(true).namingPattern("ClearExpiredRocketmqDedup-%d").build());
+        scheduledExecutorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().daemon(true).namingPattern("ClearExpiredRocketmqDedupThread-%d").build());
         scheduledExecutorService.scheduleWithFixedDelay(() -> dedupConfig().getPersist().clearExpiredRecord(), 24, 24, TimeUnit.HOURS);
     }
 }
