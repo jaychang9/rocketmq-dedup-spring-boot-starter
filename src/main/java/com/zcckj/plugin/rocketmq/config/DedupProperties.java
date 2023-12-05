@@ -22,9 +22,9 @@ public class DedupProperties implements Serializable {
     private String applicationName;
 
     /**
-     * 对于消费中的消息，多少毫秒内认为重复，默认60分钟，即60分钟内的重复消息都会串行处理（等待前一个消息消费成功/失败），超过这个时间如果消息还在消费就不认为重复了（为了防止消息丢失）
+     * 对于消费中的消息，多少毫秒内认为重复，默认30分钟，即30分钟内的重复消息都会串行处理（等待前一个消息消费成功/失败），超过这个时间如果消息还在消费就不认为重复了（为了防止消息丢失）
      */
-    private long dedupProcessingExpireMilliSeconds = 1000 * 60 * 60;
+    private long dedupProcessingExpireMilliSeconds = 1000 * 60 * 30;
 
     /**
      * 消息消费成功后，记录保留多少分钟，默认180天，即180天内的消息不会重复

@@ -89,8 +89,8 @@ public class JDBCPersist implements IPersist {
 
     @Override
     public Integer getConsumeStatus(DedupElement dedupElement) {
-        Map<String, Object> res = jdbcTemplate.queryForMap("SELECT consume_status FROM t_rocketmq_dedup where application_name = ? AND topic = ? AND tag = ? AND msg_uniq_key  = ? and expire_time > ?",
-                dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey(), System.currentTimeMillis());
-        return (Integer) res.get("status");
+        Integer consumeStatus = jdbcTemplate.queryForObject("SELECT consume_status FROM t_rocketmq_dedup where application_name = ? AND topic = ? AND tag = ? AND msg_uniq_key  = ? and expire_time > ?",
+                new Object[]{dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey(), System.currentTimeMillis()}, Integer.class);
+        return consumeStatus;
     }
 }

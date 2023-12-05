@@ -22,7 +22,7 @@
     {
       "name": "rocketmq.consume.dedup.dedup-record-reserve-minutes",
       "type": "java.lang.Long",
-      "description": "消息消费成功后，记录保留多少分钟，默认30天，即30天内的消息不会重复",
+      "description": "消息消费成功后，记录保留多少分钟，默认180天，即180天内的消息不会重复",
       "sourceType": "com.zcckj.plugin.rocketmq.config.DedupProperties",
       "defaultValue": 0
     },
