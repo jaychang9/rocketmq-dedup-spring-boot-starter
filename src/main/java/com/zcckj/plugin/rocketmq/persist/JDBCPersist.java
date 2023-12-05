@@ -98,6 +98,7 @@ public class JDBCPersist implements IPersist {
 
     @Override
     public void clearExpiredRecord() {
-        jdbcTemplate.update("DELETE FROM t_rocketmq_dedup WHERE expire_time < ? AND consume_status = ?", System.currentTimeMillis(), ConsumeStatusEnum.CONSUMED.getCode());
+        int update = jdbcTemplate.update("DELETE FROM t_rocketmq_dedup WHERE expire_time < ? AND consume_status = ?", System.currentTimeMillis(), ConsumeStatusEnum.CONSUMED.getCode());
+        log.debug("{} record has been removed.", update);
     }
 }
