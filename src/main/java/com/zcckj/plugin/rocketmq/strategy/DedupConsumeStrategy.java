@@ -56,7 +56,8 @@ public class DedupConsumeStrategy implements ConsumeStrategy {
             } else if (ConsumeStatusEnum.CONSUMED.equals(consumeStatusEnum)) {//证明消费过了，直接消费认为成功
                 log.warn("message has been consumed before! dedupKey : {}, msgId : {} , so just ack. {}", persist.toPrintInfo(dedupElement), msgId, persist.getClass().getSimpleName());
                 return true;
-            } else {//非法结果，降级，直接消费
+            } else {
+                //非法结果，降级，直接消费
                 log.warn("[NOTIFYME]unknown consume result {}, ignore dedup, continue consuming,  dedupKey : {}, {}, {} ", val, persist.toPrintInfo(dedupElement), msgId, persist.getClass().getSimpleName());
                 return doHandleMsgAndUpdateStatus(consumeCallback, message, extMap, dedupElement);
             }
