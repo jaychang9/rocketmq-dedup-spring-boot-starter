@@ -77,10 +77,10 @@
         </dependency>
 
         <!--测试的时候可以反注释，用以打印slfj的日志-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-simple</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
