@@ -34,7 +34,8 @@ public class DedupConsumeStrategy implements ConsumeStrategy {
         IPersist persist = dedupConfig.getPersist();
         final String topic = (String) extMap.get(MessageExtConst.PROPERTY_TOPIC);
         final String tags = (String) extMap.getOrDefault(MessageExtConst.PROPERTY_TAGS, "");
-        DedupElement dedupElement = new DedupElement(dedupConfig.getApplicationName(), topic, tags, dedupMessageKeyFunction.apply(extMap));
+        final String consumerGroup = (String) extMap.get(MessageExtConst.CONSUMER_GROUP);
+        DedupElement dedupElement = new DedupElement(dedupConfig.getApplicationName(), topic, tags, consumerGroup, dedupMessageKeyFunction.apply(extMap));
         Boolean shouldConsume = true;
 
         if (dedupElement.getMsgUniqKey() != null) {

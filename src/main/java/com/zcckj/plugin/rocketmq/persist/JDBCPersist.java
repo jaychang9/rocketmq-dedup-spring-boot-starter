@@ -10,23 +10,25 @@ import java.util.Date;
 
 /**
  * 需要创建如下表结构
- *<p>
+ *
+ <code>
      DROP TABLE IF EXISTS `t_rocketmq_dedup`;
      CREATE TABLE `t_rocketmq_dedup` (
      `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-     `create_time` datetime NOT NULL COMMENT '创建时间',
-     `update_time` datetime NOT NULL COMMENT '更新时间',
+     `create_time` datetime NOT NULL,
+     `update_time` datetime NOT NULL,
      `application_name` varchar(32) NOT NULL COMMENT '应用名',
      `topic` varchar(64) NOT NULL COMMENT '消息Topic',
      `tag` varchar(32) NOT NULL COMMENT '消息Tag',
+     `consumer_group` varchar(64) NOT NULL COMMENT '消费者GROUP名',
      `msg_uniq_key` varchar(64) NOT NULL COMMENT '消息Key',
      `consume_status` tinyint(1) NOT NULL COMMENT '消费状态：【0=消费中，1=已消费】',
-     `expire_time` bigint(20) NOT NULL COMMENT '过期时间【时间戳，单位：毫秒，如果状态是消费中，但已过了过期时间，则可删除该记录】',
+     `expire_time` bigint(20) NOT NULL COMMENT '过期时间，时间戳【单位：毫秒】',
      PRIMARY KEY (`id`),
-     UNIQUE KEY `uk_uniq_key` (`application_name`,`topic`,`tag`,`msg_uniq_key`),
+     UNIQUE KEY `uk_uniq_key` (`application_name`,`topic`,`tag`,`consumer_group`,`msg_uniq_key`) USING BTREE,
      KEY `idx_expire_time` (`expire_time`)
      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息防重消费表';
- *</p>
+  </code>
  *
  */
 @Slf4j
@@ -43,7 +45,7 @@ public class JDBCPersist implements IPersist {
         long expireTime = System.currentTimeMillis() + dedupProcessingExpireMilliSeconds;
         try {
             String dateTimeStr = DateFormatUtils.format(new Date(), DATE_TIME_FORMAT);
-            int i = jdbcTemplate.update("INSERT INTO t_rocketmq_dedup(create_time,update_time,application_name, topic, tag, msg_uniq_key, consume_status, expire_time) values (?, ?, ?, ?, ?, ?, ?, ?)", dateTimeStr, dateTimeStr, dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey(), ConsumeStatusEnum.CONSUMING.getCode(), expireTime);
+            int i = jdbcTemplate.update("INSERT INTO t_rocketmq_dedup(create_time,update_time,application_name, topic, tag, consumer_group, msg_uniq_key, consume_status, expire_time) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", dateTimeStr, dateTimeStr, dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getConsumerGroup(), dedupElement.getMsgUniqKey(), ConsumeStatusEnum.CONSUMING.getCode(), expireTime);
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.warn("found consuming/consumed record, set setConsumingIfNX fail {}", dedupElement);
 
@@ -69,9 +71,9 @@ public class JDBCPersist implements IPersist {
 
     private int delete(DedupElement dedupElement, boolean onlyExpire) {
         if (onlyExpire) {
-            return jdbcTemplate.update("DELETE FROM t_rocketmq_dedup  WHERE application_name = ? AND topic =? AND tag = ? AND msg_uniq_key = ? AND expire_time < ?", dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey(), System.currentTimeMillis());
+            return jdbcTemplate.update("DELETE FROM t_rocketmq_dedup  WHERE application_name = ? AND topic =? AND tag = ? AND consumer_group = ? AND msg_uniq_key = ? AND expire_time < ?", dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getConsumerGroup(), dedupElement.getMsgUniqKey(), System.currentTimeMillis());
         } else {
-            return jdbcTemplate.update("DELETE FROM t_rocketmq_dedup  WHERE application_name = ? AND topic =? AND tag = ? AND msg_uniq_key = ?", dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey());
+            return jdbcTemplate.update("DELETE FROM t_rocketmq_dedup  WHERE application_name = ? AND topic =? AND tag = ? AND consumer_group = ? AND msg_uniq_key = ?", dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getConsumerGroup(), dedupElement.getMsgUniqKey());
         }
     }
 
@@ -85,14 +87,14 @@ public class JDBCPersist implements IPersist {
     public void markConsumed(DedupElement dedupElement, long dedupRecordReserveMinutes) {
         long expireTime = System.currentTimeMillis() + dedupRecordReserveMinutes * 60 * 1000;
         String dateTimeStr = DateFormatUtils.format(new Date(), DATE_TIME_FORMAT);
-        int i = jdbcTemplate.update("UPDATE t_rocketmq_dedup SET update_time = ? ,consume_status = ? , expire_time  = ? WHERE application_name = ? AND topic = ? AND tag = ? AND msg_uniq_key = ? ",
-                dateTimeStr, ConsumeStatusEnum.CONSUMED.getCode(), expireTime, dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey());
+        int i = jdbcTemplate.update("UPDATE t_rocketmq_dedup SET update_time = ? ,consume_status = ? , expire_time  = ? WHERE application_name = ? AND topic = ? AND tag = ? AND consumer_group = ? AND msg_uniq_key = ? ",
+                dateTimeStr, ConsumeStatusEnum.CONSUMED.getCode(), expireTime, dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getConsumerGroup(), dedupElement.getMsgUniqKey());
     }
 
     @Override
     public Integer getConsumeStatus(DedupElement dedupElement) {
-        Integer consumeStatus = jdbcTemplate.queryForObject("SELECT consume_status FROM t_rocketmq_dedup WHERE application_name = ? AND topic = ? AND tag = ? AND msg_uniq_key  = ? and expire_time > ?",
-                new Object[]{dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey(), System.currentTimeMillis()}, Integer.class);
+        Integer consumeStatus = jdbcTemplate.queryForObject("SELECT consume_status FROM t_rocketmq_dedup WHERE application_name = ? AND topic = ? AND tag = ?  AND consumer_group = ? AND msg_uniq_key  = ? and expire_time > ?",
+                new Object[]{dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getConsumerGroup(), dedupElement.getMsgUniqKey(), System.currentTimeMillis()}, Integer.class);
         return consumeStatus;
     }
 

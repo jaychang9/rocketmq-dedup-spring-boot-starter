@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RedisPersist implements IPersist {
     private final StringRedisTemplate redisTemplate;
+    private static final String COLON = ":";
 
     public RedisPersist(StringRedisTemplate redisTemplate) {
         if (redisTemplate == null) {
@@ -27,8 +28,7 @@ public class RedisPersist implements IPersist {
 
     @Override
     public boolean setConsumingIfNX(DedupElement dedupElement, long dedupProcessingExpireMilliSeconds) {
-        String dedupKey = buildDedupMessageRedisKey(dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey());
-
+        String dedupKey = buildDedupMessageRedisKey(dedupElement);
         //setnx, 成功就可以消费
         Boolean execute = redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> redisConnection.set(dedupKey.getBytes(), (String.valueOf(ConsumeStatusEnum.CONSUMED.getCode())).getBytes(), Expiration.milliseconds(dedupProcessingExpireMilliSeconds), RedisStringCommands.SetOption.SET_IF_ABSENT));
 
@@ -41,36 +41,36 @@ public class RedisPersist implements IPersist {
 
     @Override
     public void delete(DedupElement dedupElement) {
-        String dedupKey = buildDedupMessageRedisKey(dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey());
-
+        String dedupKey = buildDedupMessageRedisKey(dedupElement);
         redisTemplate.delete(dedupKey);
     }
 
     @Override
     public void markConsumed(DedupElement dedupElement, long dedupRecordReserveMinutes) {
-        String dedupKey = buildDedupMessageRedisKey(dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey());
+        String dedupKey = buildDedupMessageRedisKey(dedupElement);
         redisTemplate.opsForValue().set(dedupKey, String.valueOf(ConsumeStatusEnum.CONSUMING.getCode()), dedupRecordReserveMinutes, TimeUnit.MINUTES);
 
     }
 
     @Override
     public Integer getConsumeStatus(DedupElement dedupElement) {
-        String dedupKey = buildDedupMessageRedisKey(dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey());
+        String dedupKey = buildDedupMessageRedisKey(dedupElement);
         return Integer.valueOf(redisTemplate.opsForValue().get(dedupKey));
     }
 
     @Override
     public String toPrintInfo(DedupElement dedupElement) {
-        return buildDedupMessageRedisKey(dedupElement.getApplication(), dedupElement.getTopic(), dedupElement.getTag(), dedupElement.getMsgUniqKey());
+        return buildDedupMessageRedisKey(dedupElement);
     }
 
-    private String buildDedupMessageRedisKey(String applicationName, String topic, String tag, String msgUniqKey) {
-        if (StringUtils.isEmpty(msgUniqKey)) {
+    private String buildDedupMessageRedisKey(DedupElement dedupElement) {
+        if (StringUtils.isEmpty(dedupElement.getMsgUniqKey())) {
             return null;
         } else {
             //示例：MQ:CONSUME_DEDUP:APPNAME:TOPIC:TAG:APP_DEDUP_KEY
-            String prefix = "MQ:CONSUME_DEDUP:" + applicationName + ":" + topic + (StringUtils.isNotEmpty(tag) ? ":" + tag : "");
-            return prefix + ":" + msgUniqKey;
+            String tag = StringUtils.isNotBlank(dedupElement.getTag()) ? COLON + dedupElement.getTag() : "";
+            String prefix = "MQ:CONSUME_DEDUP:" + dedupElement.getApplication() + COLON + dedupElement.getTopic() + tag + COLON + dedupElement.getConsumerGroup();
+            return prefix + COLON + dedupElement.getMsgUniqKey();
         }
     }
 

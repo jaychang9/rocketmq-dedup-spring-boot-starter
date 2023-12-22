@@ -22,8 +22,11 @@ public class DedupElement {
      */
     private String tag;
     /**
+     * 消费者GROUP
+     */
+    private String consumerGroup;
+    /**
      * 消息Key
      */
     private String msgUniqKey;
-
 }
