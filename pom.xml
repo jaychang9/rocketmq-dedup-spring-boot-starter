@@ -17,7 +17,7 @@
 
     <properties>
         <rocketmq.version>4.3.2</rocketmq.version>
-        <spring-boot-starter-rocketmq.version>0.1.8</spring-boot-starter-rocketmq.version>
+        <spring-boot-starter-rocketmq.version>0.1.9</spring-boot-starter-rocketmq.version>
     </properties>
 
     <distributionManagement>
