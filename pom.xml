@@ -6,7 +6,7 @@
 
     <groupId>com.zcckj.plugin</groupId>
     <artifactId>spring-boot-starter-rocketmq-dedup</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -17,7 +17,7 @@
 
     <properties>
         <rocketmq.version>4.3.2</rocketmq.version>
-        <spring-boot-starter-rocketmq.version>0.1.9</spring-boot-starter-rocketmq.version>
+        <spring-boot-starter-rocketmq.version>1.0.0</spring-boot-starter-rocketmq.version>
     </properties>
 
     <distributionManagement>
