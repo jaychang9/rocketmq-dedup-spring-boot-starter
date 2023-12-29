@@ -12,23 +12,23 @@ import java.util.Date;
  * 需要创建如下表结构
  *
  <code>
-     DROP TABLE IF EXISTS `t_rocketmq_dedup`;
-     CREATE TABLE `t_rocketmq_dedup` (
-     `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-     `create_time` datetime NOT NULL,
-     `update_time` datetime NOT NULL,
-     `application_name` varchar(32) NOT NULL COMMENT '应用名',
-     `topic` varchar(64) NOT NULL COMMENT '消息Topic',
-     `tag` varchar(32) NOT NULL COMMENT '消息Tag',
-     `consumer_group` varchar(64) NOT NULL COMMENT '消费者GROUP名',
-     `msg_uniq_key` varchar(64) NOT NULL COMMENT '消息Key',
-     `consume_status` tinyint(1) NOT NULL COMMENT '消费状态：【0=消费中，1=已消费】',
-     `expire_time` bigint(20) NOT NULL COMMENT '过期时间，时间戳【单位：毫秒】',
-     PRIMARY KEY (`id`),
-     UNIQUE KEY `uk_uniq_key` (`application_name`,`topic`,`tag`,`consumer_group`,`msg_uniq_key`) USING BTREE,
-     KEY `idx_expire_time` (`expire_time`)
-     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息防重消费表';
-  </code>
+ DROP TABLE IF EXISTS `t_rocketmq_dedup`;
+ CREATE TABLE `t_rocketmq_dedup` (
+ `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+ `create_time` datetime NOT NULL,
+ `update_time` datetime NOT NULL,
+ `application_name` varchar(32) NOT NULL COMMENT '应用名',
+ `topic` varchar(64) NOT NULL COMMENT '消息Topic',
+ `tag` varchar(32) NOT NULL COMMENT '消息Tag',
+ `consumer_group` varchar(64) NOT NULL COMMENT '消费者GROUP名',
+ `msg_uniq_key` varchar(64) NOT NULL COMMENT '消息Key',
+ `consume_status` tinyint(1) NOT NULL COMMENT '消费状态：【0=消费中，1=已消费】',
+ `expire_time` bigint(20) NOT NULL COMMENT '过期时间，时间戳【单位：毫秒】',
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `uk_uniq_key` (`consumer_group`,`topic`,`tag`,`msg_uniq_key`,`application_name`) USING BTREE,
+ KEY `idx_expire_time` (`expire_time`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息防重消费表';
+ </code>
  *
  */
 @Slf4j
