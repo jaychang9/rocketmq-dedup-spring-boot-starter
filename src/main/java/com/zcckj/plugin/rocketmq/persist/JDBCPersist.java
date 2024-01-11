@@ -19,7 +19,7 @@ import java.util.Date;
  `update_time` datetime NOT NULL,
  `application_name` varchar(32) NOT NULL COMMENT '应用名',
  `topic` varchar(64) NOT NULL COMMENT '消息Topic',
- `tag` varchar(32) NOT NULL COMMENT '消息Tag',
+ `tag` varchar(64) NOT NULL COMMENT '消息Tag',
  `consumer_group` varchar(64) NOT NULL COMMENT '消费者GROUP名',
  `msg_uniq_key` varchar(64) NOT NULL COMMENT '消息Key',
  `consume_status` tinyint(1) NOT NULL COMMENT '消费状态：【0=消费中，1=已消费】',
