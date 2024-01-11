@@ -53,10 +53,10 @@ public abstract class AbstractDedupMQConsumer<T> extends AbstractMQPushConsumer<
     public boolean process(T message, Map<String, Object> extMap) {
         ConsumeStrategy strategy = new NormalConsumeStrategy();
 
-        Function<Map<String, Object>, String> dedupKeyFunction = this::dedupMessageKey;
+        BiFunction<T, Map<String, Object>, String> dedupKeyFunction = this::dedupMessageKey;
 
         if (dedupConfig.getDedupStrategy() == DedupConfig.DEDUP_STRATEGY_CONSUME_LATER) {
-            strategy = new DedupConsumeStrategy(dedupConfig, dedupKeyFunction);
+            strategy = new DedupConsumeStrategy(dedupConfig, (BiFunction<Object, Map<String, Object>, String>) dedupKeyFunction);
         }
         BiFunction<T, Map<String, Object>, Boolean> doProcessFun = AbstractDedupMQConsumer.this::doProcess;
         //调用对应的策略
@@ -75,7 +75,7 @@ public abstract class AbstractDedupMQConsumer<T> extends AbstractMQPushConsumer<
     /**
      * 默认拿uniqkey 作为去重的标识
      */
-    protected String dedupMessageKey(final Map<String, Object> extMap) {
+    protected String dedupMessageKey(final T message, final Map<String, Object> extMap) {
         String uniqID = (String) extMap.get(MessageExtConst.PROPERTY_UNIQ_CLIENT_MESSAGE_ID_KEYIDX);
         if (uniqID == null) {
             return (String) extMap.get(MessageExtConst.PROPERTY_EXT_MSG_ID);

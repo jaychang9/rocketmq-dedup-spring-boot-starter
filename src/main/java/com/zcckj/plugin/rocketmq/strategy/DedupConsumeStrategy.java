@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * 去重策略的消费策略，去重数据存储目前支持MySQL（JDBC）和Redis，详见 persist包下的实现类
@@ -26,7 +25,7 @@ public class DedupConsumeStrategy implements ConsumeStrategy {
     private final DedupConfig dedupConfig;
 
     //获取去重键的函数
-    private final Function<Map<String, Object>, String> dedupMessageKeyFunction;
+    private final BiFunction<Object, Map<String, Object>, String> dedupMessageKeyFunction;
 
 
     @Override
@@ -35,7 +34,7 @@ public class DedupConsumeStrategy implements ConsumeStrategy {
         final String topic = (String) extMap.get(MessageExtConst.PROPERTY_TOPIC);
         final String tags = (String) extMap.getOrDefault(MessageExtConst.PROPERTY_TAGS, "");
         final String consumerGroup = (String) extMap.get(MessageExtConst.CONSUMER_GROUP);
-        DedupElement dedupElement = new DedupElement(dedupConfig.getApplicationName(), topic, tags, consumerGroup, dedupMessageKeyFunction.apply(extMap));
+        DedupElement dedupElement = new DedupElement(dedupConfig.getApplicationName(), topic, tags, consumerGroup, dedupMessageKeyFunction.apply(message, extMap));
         Boolean shouldConsume = true;
 
         if (dedupElement.getMsgUniqKey() != null) {
