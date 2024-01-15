@@ -86,6 +86,7 @@ public class DedupConsumeStrategy implements ConsumeStrategy {
                 } catch (Exception ex) {
                     log.error("error when delete dedup record {}", dedupElement, ex);
                 }
+                log.error(String.format("consume %s failed", msgId), e);
                 throw e;
             }
 
