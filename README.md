@@ -1,3 +1,6 @@
+# 感谢原作者
+https://github.com/Jaskey/RocketMQDedupListener
+本人仅是在此作者基础上，封装了spring boot starter而已
 # RocketMQDedupListener
 通用的RocketMQ消息幂等去重消费者工具类，开箱即用
 
