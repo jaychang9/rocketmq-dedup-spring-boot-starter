@@ -20,16 +20,11 @@
         <spring-boot-starter-rocketmq.version>1.0.0</spring-boot-starter-rocketmq.version>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>zcckj_releases</id>
-            <url>http://nexus.zcckj.com/repository/zcckj_releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>zcckj_snapshots</id>
-            <url>http://nexus.zcckj.com/repository/zcckj_snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <scm>
+        <url>https://github.com/jaychang9/spring-boot-starter-rocketmq-dedup</url>
+        <connection>scm:git:git://github.com:jaychang9/spring-boot-starter-rocketmq-dedup.git</connection>
+        <developerConnection>scm:git:git@github.com:jaychang9/spring-boot-starter-rocketmq-dedup.git</developerConnection>
+    </scm>
 
     <dependencies>
         <dependency>

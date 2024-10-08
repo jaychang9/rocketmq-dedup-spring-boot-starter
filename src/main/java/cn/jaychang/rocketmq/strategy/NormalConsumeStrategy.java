@@ -1,4 +1,4 @@
-package com.zcckj.plugin.rocketmq.strategy;
+package cn.jaychang.rocketmq.strategy;
 
 
 import lombok.AllArgsConstructor;

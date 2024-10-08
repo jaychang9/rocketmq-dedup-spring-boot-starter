@@ -1,8 +1,8 @@
-package com.zcckj.plugin.rocketmq.core;
+package cn.jaychang.rocketmq.core;
 
-import com.zcckj.plugin.rocketmq.persist.IPersist;
-import com.zcckj.plugin.rocketmq.persist.JDBCPersist;
-import com.zcckj.plugin.rocketmq.persist.RedisPersist;
+import cn.jaychang.rocketmq.persist.IPersist;
+import cn.jaychang.rocketmq.persist.JDBCPersist;
+import cn.jaychang.rocketmq.persist.RedisPersist;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.rocketmq.common.message.MessageClientIDSetter;

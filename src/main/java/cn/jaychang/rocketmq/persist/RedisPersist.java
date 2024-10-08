@@ -1,7 +1,7 @@
-package com.zcckj.plugin.rocketmq.persist;
+package cn.jaychang.rocketmq.persist;
 
 
-import com.zcckj.plugin.rocketmq.core.ConsumeStatusEnum;
+import cn.jaychang.rocketmq.core.ConsumeStatusEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;

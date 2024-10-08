@@ -1,11 +1,11 @@
-package com.zcckj.plugin.rocketmq.strategy;
+package cn.jaychang.rocketmq.strategy;
 
 
 import com.maihaoche.starter.mq.base.MessageExtConst;
-import com.zcckj.plugin.rocketmq.core.ConsumeStatusEnum;
-import com.zcckj.plugin.rocketmq.core.DedupConfig;
-import com.zcckj.plugin.rocketmq.persist.DedupElement;
-import com.zcckj.plugin.rocketmq.persist.IPersist;
+import cn.jaychang.rocketmq.core.ConsumeStatusEnum;
+import cn.jaychang.rocketmq.core.DedupConfig;
+import cn.jaychang.rocketmq.persist.DedupElement;
+import cn.jaychang.rocketmq.persist.IPersist;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

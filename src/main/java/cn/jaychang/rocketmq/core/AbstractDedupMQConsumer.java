@@ -1,11 +1,11 @@
-package com.zcckj.plugin.rocketmq.core;
+package cn.jaychang.rocketmq.core;
 
 
+import cn.jaychang.rocketmq.strategy.ConsumeStrategy;
+import cn.jaychang.rocketmq.strategy.DedupConsumeStrategy;
+import cn.jaychang.rocketmq.strategy.NormalConsumeStrategy;
 import com.maihaoche.starter.mq.base.AbstractMQPushConsumer;
 import com.maihaoche.starter.mq.base.MessageExtConst;
-import com.zcckj.plugin.rocketmq.strategy.ConsumeStrategy;
-import com.zcckj.plugin.rocketmq.strategy.DedupConsumeStrategy;
-import com.zcckj.plugin.rocketmq.strategy.NormalConsumeStrategy;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;

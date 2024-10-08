@@ -1,4 +1,4 @@
-package com.zcckj.plugin.rocketmq.core;
+package cn.jaychang.rocketmq.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

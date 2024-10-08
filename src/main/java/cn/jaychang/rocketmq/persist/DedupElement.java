@@ -1,4 +1,4 @@
-package com.zcckj.plugin.rocketmq.persist;
+package cn.jaychang.rocketmq.persist;
 
 
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
-package com.zcckj.plugin.rocketmq.config;
+package cn.jaychang.rocketmq.config;
 
-import com.zcckj.plugin.rocketmq.core.PersistTypeEnum;
+import cn.jaychang.rocketmq.core.PersistTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
