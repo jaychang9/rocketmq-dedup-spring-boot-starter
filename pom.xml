@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.gitee.jaychang</groupId>
-    <artifactId>spring-boot-starter-rocketmq-dedup</artifactId>
+    <artifactId>rocketmq-dedup-spring-boot-starter</artifactId>
     <version>1.0.4</version>
 
     <parent>
@@ -17,14 +17,14 @@
 
     <properties>
         <rocketmq.version>4.3.2</rocketmq.version>
-        <spring-boot-starter-rocketmq.version>1.0.0</spring-boot-starter-rocketmq.version>
+        <rocketmq-spring-boot-starter.version>1.0.1</rocketmq-spring-boot-starter.version>
         <server.id>central</server.id>
     </properties>
 
     <scm>
-        <url>https://github.com/jaychang9/spring-boot-starter-rocketmq-dedup</url>
-        <connection>scm:git:git://github.com:jaychang9/spring-boot-starter-rocketmq-dedup.git</connection>
-        <developerConnection>scm:git:git@github.com:jaychang9/spring-boot-starter-rocketmq-dedup.git</developerConnection>
+        <url>https://github.com/jaychang9/rocketmq-dedup-spring-boot-starter</url>
+        <connection>scm:git:git://github.com:jaychang9/rocketmq-dedup-spring-boot-starter.git</connection>
+        <developerConnection>scm:git:git@github.com:jaychang9/rocketmq-dedup-spring-boot-starter.git</developerConnection>
     </scm>
 
     <dependencies>
@@ -34,9 +34,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.maihaoche</groupId>
-            <artifactId>spring-boot-starter-rocketmq</artifactId>
-            <version>${spring-boot-starter-rocketmq.version}</version>
+            <groupId>io.gitee.jaychang</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>${rocketmq-spring-boot-starter.version}</version>
         </dependency>
 
         <dependency>
