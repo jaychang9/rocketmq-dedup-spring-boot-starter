@@ -1,7 +1,7 @@
 package io.gitee.jaychang.rocketmq.strategy;
 
 
-import com.maihaoche.starter.mq.base.MessageExtConst;
+import io.gitee.jaychang.rocketmq.base.MessageExtConst;
 import io.gitee.jaychang.rocketmq.core.ConsumeStatusEnum;
 import io.gitee.jaychang.rocketmq.core.DedupConfig;
 import io.gitee.jaychang.rocketmq.persist.DedupElement;

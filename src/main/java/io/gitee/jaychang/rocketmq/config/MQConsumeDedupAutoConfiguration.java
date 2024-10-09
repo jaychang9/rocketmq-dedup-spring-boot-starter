@@ -1,7 +1,6 @@
 package io.gitee.jaychang.rocketmq.config;
 
-import com.maihaoche.starter.mq.annotation.MQConsumer;
-import com.maihaoche.starter.mq.config.MQConsumerAutoConfiguration;
+import io.gitee.jaychang.rocketmq.annotation.MQConsumer;
 import io.gitee.jaychang.rocketmq.core.AbstractDedupMQConsumer;
 import io.gitee.jaychang.rocketmq.core.DedupConfig;
 import io.gitee.jaychang.rocketmq.core.PersistTypeEnum;

@@ -4,8 +4,8 @@ package io.gitee.jaychang.rocketmq.core;
 import io.gitee.jaychang.rocketmq.strategy.ConsumeStrategy;
 import io.gitee.jaychang.rocketmq.strategy.DedupConsumeStrategy;
 import io.gitee.jaychang.rocketmq.strategy.NormalConsumeStrategy;
-import com.maihaoche.starter.mq.base.AbstractMQPushConsumer;
-import com.maihaoche.starter.mq.base.MessageExtConst;
+import io.gitee.jaychang.rocketmq.base.AbstractMQPushConsumer;
+import io.gitee.jaychang.rocketmq.base.MessageExtConst;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
