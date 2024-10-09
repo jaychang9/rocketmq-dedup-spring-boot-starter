@@ -1,7 +1,7 @@
-package cn.jaychang.rocketmq.persist;
+package io.gitee.jaychang.rocketmq.persist;
 
 
-import cn.jaychang.rocketmq.core.ConsumeStatusEnum;
+import io.gitee.jaychang.rocketmq.core.ConsumeStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.jdbc.core.JdbcTemplate;

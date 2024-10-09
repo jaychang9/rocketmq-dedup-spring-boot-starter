@@ -1,4 +1,4 @@
-package cn.jaychang.rocketmq.strategy;
+package io.gitee.jaychang.rocketmq.strategy;
 
 
 import lombok.AllArgsConstructor;

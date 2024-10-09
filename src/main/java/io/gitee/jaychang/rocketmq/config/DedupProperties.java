@@ -1,6 +1,6 @@
-package cn.jaychang.rocketmq.config;
+package io.gitee.jaychang.rocketmq.config;
 
-import cn.jaychang.rocketmq.core.PersistTypeEnum;
+import io.gitee.jaychang.rocketmq.core.PersistTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package cn.jaychang.rocketmq.persist;
+package io.gitee.jaychang.rocketmq.persist;
 
 
 public interface IPersist {

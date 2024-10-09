@@ -1,12 +1,12 @@
-package cn.jaychang.rocketmq.config;
+package io.gitee.jaychang.rocketmq.config;
 
 import com.maihaoche.starter.mq.annotation.MQConsumer;
 import com.maihaoche.starter.mq.config.MQConsumerAutoConfiguration;
-import cn.jaychang.rocketmq.core.AbstractDedupMQConsumer;
-import cn.jaychang.rocketmq.core.DedupConfig;
-import cn.jaychang.rocketmq.core.PersistTypeEnum;
-import cn.jaychang.rocketmq.persist.JDBCPersist;
-import cn.jaychang.rocketmq.persist.RedisPersist;
+import io.gitee.jaychang.rocketmq.core.AbstractDedupMQConsumer;
+import io.gitee.jaychang.rocketmq.core.DedupConfig;
+import io.gitee.jaychang.rocketmq.core.PersistTypeEnum;
+import io.gitee.jaychang.rocketmq.persist.JDBCPersist;
+import io.gitee.jaychang.rocketmq.persist.RedisPersist;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.beans.BeansException;
