@@ -18,7 +18,6 @@
     <properties>
         <rocketmq.version>4.3.2</rocketmq.version>
         <rocketmq-spring-boot-starter.version>1.0.1</rocketmq-spring-boot-starter.version>
-        <server.id>central</server.id>
     </properties>
 
     <scm>
@@ -72,29 +71,29 @@
             <optional>true</optional>
         </dependency>
 
-        <!--测试的时候可以反注释，用以打印slfj的日志-->
-<!--        <dependency>-->
-<!--            <groupId>org.slf4j</groupId>-->
-<!--            <artifactId>slf4j-simple</artifactId>-->
-<!--        </dependency>-->
+        <!--测试的时候可以反注释，用以打印slf4j的日志-->
+        <!--
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
+        -->
     </dependencies>
 
     <distributionManagement>
         <snapshotRepository>
             <!-- 与settings.xml的server.id保持一致 -->
-            <id>${server.id}</id>
+            <id>central</id>
             <url>https://central.sonatype.com/</url>
         </snapshotRepository>
         <!-- 老账号配置
         <snapshotRepository>
-            这个id和settings.xml中servers.server.id要相同，因为上传jar需要登录才有权限
-            <id>${server.id}</id>
+            <id>central</id>
             <name>OSS Snapshots Repository</name>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
         <repository>
-            这个id和settings.xml中servers.server.id要相同，因为上传jar需要登录才有权限
-            <id>${server.id}</id>
+            <id>central</id>
             <name>OSS Staging Repository</name>
             <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>-->
@@ -164,7 +163,7 @@
                 <version>1.6.8</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>${server.id}</serverId>
+                    <serverId>central</serverId>
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
