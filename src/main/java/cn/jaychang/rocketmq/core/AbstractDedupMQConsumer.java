@@ -1,11 +1,11 @@
-package io.gitee.jaychang.rocketmq.core;
+package cn.jaychang.rocketmq.core;
 
 
-import io.gitee.jaychang.rocketmq.strategy.ConsumeStrategy;
-import io.gitee.jaychang.rocketmq.strategy.DedupConsumeStrategy;
-import io.gitee.jaychang.rocketmq.strategy.NormalConsumeStrategy;
-import io.gitee.jaychang.rocketmq.base.AbstractMQPushConsumer;
-import io.gitee.jaychang.rocketmq.base.MessageExtConst;
+import cn.jaychang.rocketmq.base.AbstractMQPushConsumer;
+import cn.jaychang.rocketmq.base.MessageExtConst;
+import cn.jaychang.rocketmq.strategy.ConsumeStrategy;
+import cn.jaychang.rocketmq.strategy.DedupConsumeStrategy;
+import cn.jaychang.rocketmq.strategy.NormalConsumeStrategy;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -75,11 +75,11 @@ public abstract class AbstractDedupMQConsumer<T> extends AbstractMQPushConsumer<
      * 默认拿uniqkey 作为去重的标识
      */
     protected String dedupMessageKey(final T message, final Map<String, Object> extMap) {
-        String uniqID = (String) extMap.get(MessageExtConst.PROPERTY_UNIQ_CLIENT_MESSAGE_ID_KEYIDX);
-        if (uniqID == null) {
+        String uniqueID = (String) extMap.get(MessageExtConst.PROPERTY_UNIQ_CLIENT_MESSAGE_ID_KEYIDX);
+        if (uniqueID == null) {
             return (String) extMap.get(MessageExtConst.PROPERTY_EXT_MSG_ID);
         } else {
-            return uniqID;
+            return uniqueID;
         }
     }
 

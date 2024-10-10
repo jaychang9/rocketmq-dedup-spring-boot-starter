@@ -1,4 +1,4 @@
-package io.gitee.jaychang.rocketmq.strategy;
+package cn.jaychang.rocketmq.strategy;
 
 
 import java.util.Map;

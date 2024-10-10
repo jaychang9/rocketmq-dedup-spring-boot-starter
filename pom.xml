@@ -4,20 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.gitee.jaychang</groupId>
+    <groupId>cn.jaychang</groupId>
     <artifactId>rocketmq-dedup-spring-boot-starter</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.3.12.RELEASE</version>
+        <relativePath/>
     </parent>
 
     <properties>
         <rocketmq.version>4.3.2</rocketmq.version>
-        <rocketmq-spring-boot-starter.version>1.0.1</rocketmq-spring-boot-starter.version>
+        <rocketmq-spring-boot-starter.version>1.0.2</rocketmq-spring-boot-starter.version>
     </properties>
 
     <scm>
@@ -28,12 +28,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.gitee.jaychang</groupId>
+            <groupId>cn.jaychang</groupId>
             <artifactId>rocketmq-spring-boot-starter</artifactId>
             <version>${rocketmq-spring-boot-starter.version}</version>
         </dependency>
@@ -65,10 +60,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
 
         <!--测试的时候可以反注释，用以打印slf4j的日志-->
@@ -181,6 +182,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

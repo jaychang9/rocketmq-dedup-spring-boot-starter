@@ -1,4 +1,4 @@
-package io.gitee.jaychang.rocketmq.core;
+package cn.jaychang.rocketmq.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import lombok.Getter;
 public enum  PersistTypeEnum {
 
     DB(0,"DB Persist"),
-    REDIS(0,"Redis Persist");
+    REDIS(1,"Redis Persist");
 
     private final Integer code;
     private final String label;

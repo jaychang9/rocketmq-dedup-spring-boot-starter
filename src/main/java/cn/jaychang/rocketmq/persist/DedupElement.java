@@ -1,4 +1,4 @@
-package io.gitee.jaychang.rocketmq.persist;
+package cn.jaychang.rocketmq.persist;
 
 
 import lombok.AllArgsConstructor;

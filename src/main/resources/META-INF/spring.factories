@@ -1,3 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration\
-=io.gitee.jaychang.rocketmq.config.MQConsumeDedupAutoConfiguration
+=cn.jaychang.rocketmq.config.MQConsumeDedupAutoConfiguration
 
