@@ -1,6 +1,7 @@
 # 感谢原作者
 https://github.com/Jaskey/RocketMQDedupListener
-本人仅是在此作者基础上，封装了spring boot starter而已
+本人仅是在此作者基础上，基于maihaoche的rocketmq-spring-boot-starter(本人做了一些修改),实现幂等消费，并封装成spring boot starter以方便使用
+
 # RocketMQDedupListener
 通用的RocketMQ消息幂等去重消费者工具类，开箱即用
 
